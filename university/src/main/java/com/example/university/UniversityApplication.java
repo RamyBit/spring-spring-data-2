@@ -21,7 +21,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan("com.example.university")
-public class PersistenceJPAConfig {
+public class UniversityApplication {
 
 
     @Bean

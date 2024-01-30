@@ -1,6 +1,6 @@
 package com.example.university.dao;
 
-import com.example.university.PersistenceJPAConfig;
+import com.example.university.UniversityApplication;
 import com.example.university.business.UniversityService;
 import com.example.university.domain.Student;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Test queries that involve clauses and expressions
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { PersistenceJPAConfig.class })
+@ContextConfiguration(classes = { UniversityApplication.class })
 public class FindByClausesAndExpressions {
 
     @Autowired

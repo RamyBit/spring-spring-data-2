@@ -1,6 +1,6 @@
 package com.example.university.dao;
 
-import com.example.university.PersistenceJPAConfig;
+import com.example.university.UniversityApplication;
 import com.example.university.business.CourseFilter;
 import com.example.university.business.DynamicQueryService;
 import com.example.university.business.UniversityService;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Test Criteria-based queries
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { PersistenceJPAConfig.class })
+@ContextConfiguration(classes = { UniversityApplication.class })
 public class CriteriaQueryTest {
 
     @Autowired

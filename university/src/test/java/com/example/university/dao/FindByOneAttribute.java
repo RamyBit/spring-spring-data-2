@@ -1,6 +1,6 @@
 package com.example.university.dao;
 
-import com.example.university.PersistenceJPAConfig;
+import com.example.university.UniversityApplication;
 import com.example.university.business.UniversityService;
 import com.example.university.domain.Course;
 import com.example.university.domain.Staff;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Tests that query by one attribute
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { PersistenceJPAConfig.class })
+@ContextConfiguration(classes = { UniversityApplication.class })
 public class FindByOneAttribute {
 
     @Autowired
