@@ -4,6 +4,8 @@ import com.example.university.UniversityApplication;
 import com.example.university.business.UniversityService;
 import com.example.university.domain.Course;
 import com.example.university.domain.Staff;
+import com.example.university.repo.CourseRepo;
+import com.example.university.repo.StudentRepo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,10 @@ public class FindByOneAttribute {
     private UniversityService universityService;
 
     @Autowired
-    private StudentDao studentDao;
+    private StudentRepo studentRepo;
 
     @Autowired
-    private CourseDao courseDao;
+    private CourseRepo courseRepo;
 
     private List<Staff> allStaff;
     @Test
@@ -37,27 +39,27 @@ public class FindByOneAttribute {
         // Test Create
         UniversityFactory.fillUniversity(universityService);
 
-        studentDao.findByFullTime(true).stream().forEach(s -> assertTrue(s.isFullTime()));
+        studentRepo.findByFullTime(true).stream().forEach(s -> assertTrue(s.isFullTime()));
 
-        studentDao.findByAge(20).stream().forEach(student -> assertTrue(student.getAge() == 20));
+        studentRepo.findByAge(20).stream().forEach(student -> assertTrue(student.getAge() == 20));
 
-        studentDao.findByLastName("King").stream()
+        studentRepo.findByAttendeeLastName("King").stream()
                 .forEach(s -> assertTrue(s.getAttendee().getLastName().equals("King")));
 
 
         List<Course> allCourses = universityService.findAllCourses();
         Course firstCourse = allCourses.get(0);
 
-        assertEquals(firstCourse, courseDao.findByName(firstCourse.getName()).get());
+        assertEquals(firstCourse, courseRepo.findByName(firstCourse.getName()).get());
 
         assertEquals(firstCourse.getDepartment().getChair().getMember().getLastName(),
-                courseDao.findByChairLastName(firstCourse.getDepartment().getChair().getMember().getLastName())
+                courseRepo.findByDepartmentChairMemberLastName(firstCourse.getDepartment().getChair().getMember().getLastName())
                     .get(0).getDepartment().getChair().getMember().getLastName());
 
         Course courseWithPrerequisites = allCourses.stream().filter(x->x.getPrerequisites().size() > 0).findFirst().get();
-        Integer prerequisiteId = courseWithPrerequisites.getPrerequisites().get(0).getId();
-        assertTrue(courseDao.findCourseByPrerequisite(prerequisiteId).contains(courseWithPrerequisites));
+        Course prerequisite = courseWithPrerequisites.getPrerequisites().get(0);
+        assertTrue(courseRepo.findCourseByPrerequisites(prerequisite).contains(courseWithPrerequisites));
 
-        courseDao.findByCredits(3).stream().forEach(x-> assertEquals(3, x.getCredits()));
+        courseRepo.findByCredits(3).stream().forEach(x-> assertEquals(3, x.getCredits()));
     }
 }
