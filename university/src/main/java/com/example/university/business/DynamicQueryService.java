@@ -1,17 +1,9 @@
 package com.example.university.business;
 
-import com.example.university.dao.CourseDao;
 import com.example.university.domain.Course;
 import com.example.university.repo.CourseRepo;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
