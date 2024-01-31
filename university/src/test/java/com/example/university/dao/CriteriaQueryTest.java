@@ -27,8 +27,6 @@ public class CriteriaQueryTest {
     @Autowired
     private DepartmentRepo departmentRepo;
     @Autowired
-    private StaffDao staffDao;
-    @Autowired
     private StaffRepo staffRepo;
 
     @Test
