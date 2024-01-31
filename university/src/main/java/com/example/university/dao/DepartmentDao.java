@@ -22,9 +22,5 @@ public class DepartmentDao {
     }
 
 
-    public Optional<Department> findByName(String name) {
-        TypedQuery<Department> query = em.createQuery(
-                "SELECT d FROM Department d WHERE d.name = :name", Department.class);
-        return Optional.ofNullable(query.setParameter("name", name).getSingleResult());
-    }
+
 }

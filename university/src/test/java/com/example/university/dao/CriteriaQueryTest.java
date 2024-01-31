@@ -1,17 +1,15 @@
 package com.example.university.dao;
 
-import com.example.university.UniversityApplication;
 import com.example.university.business.CourseFilter;
 import com.example.university.business.DynamicQueryService;
 import com.example.university.business.UniversityService;
 import com.example.university.domain.Department;
 import com.example.university.domain.Staff;
+import com.example.university.repo.DepartmentRepo;
+import com.example.university.repo.StaffRepo;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.example.university.business.CourseFilter.filterBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,15 +25,17 @@ public class CriteriaQueryTest {
     @Autowired
     private UniversityService universityService;
     @Autowired
-    private DepartmentDao departmentDao;
+    private DepartmentRepo departmentRepo;
     @Autowired
     private StaffDao staffDao;
+    @Autowired
+    private StaffRepo staffRepo;
 
     @Test
     void findByCriteria() {
         UniversityFactory.fillUniversity(universityService);
-        Department humanities = departmentDao.findByName("Humanities").get();
-        Staff professorBlack = staffDao.findByLastName("Black").stream().findFirst().get();
+        Department humanities = departmentRepo.findByName("Humanities").get();
+        Staff professorBlack = staffRepo.findByMemberLastName("Black").stream().findFirst().get();
 
         System.out.println('\n' + "*** All Humanities Courses");
         queryAndVerify(filterBy().department(humanities));
@@ -46,7 +46,7 @@ public class CriteriaQueryTest {
         System.out.println('\n' + "*** Courses taught by Professor Black");
         queryAndVerify(filterBy().instructor(professorBlack));
 
-        System.out.println('\n' + "*** Courses In Humanties, taught by Professor Black, 4 credits");
+        System.out.println('\n' + "*** Courses In Humanities, taught by Professor Black, 4 credits");
         queryAndVerify(filterBy()
                 .department(humanities)
                 .credits(4)
