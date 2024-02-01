@@ -49,11 +49,37 @@ public class CriteriaQueryTest {
                 .department(humanities)
                 .credits(4)
                 .instructor(professorBlack));
+
+        System.out.println('\n' + "### Query Dsl Tests ###");
+        System.out.println('\n' + "*** All Humanities Courses");
+        queryDslAndVerify(filterBy().department(humanities));
+
+        System.out.println('\n' + "*** 4 credit courses");
+        queryDslAndVerify(filterBy().credits(4));
+
+        System.out.println('\n' + "*** Courses taught by Professor Black");
+        queryDslAndVerify(filterBy().instructor(professorBlack));
+
+        System.out.println('\n' + "*** Courses In Humanities, taught by Professor Black, 4 credits");
+        queryDslAndVerify(filterBy()
+                .department(humanities)
+                .credits(4)
+                .instructor(professorBlack));
     }
+
 
 
     private void queryAndVerify(CourseFilter filter) {
         queryService.filterBySpecification(filter)
+                .forEach(course -> {
+                    filter.getInstructor().ifPresent(i -> assertEquals(i, course.getInstructor()));
+                    filter.getCredits().ifPresent(c -> assertEquals(c, course.getCredits()));
+                    filter.getDepartment().ifPresent(prof -> assertEquals(prof, course.getDepartment()));
+                    System.out.println(course);
+                });
+    }
+    private void queryDslAndVerify(CourseFilter filter) {
+        queryService.filterByQueryDsl(filter)
                 .forEach(course -> {
                     filter.getInstructor().ifPresent(i -> assertEquals(i, course.getInstructor()));
                     filter.getCredits().ifPresent(c -> assertEquals(c, course.getCredits()));

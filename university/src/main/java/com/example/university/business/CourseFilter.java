@@ -3,12 +3,15 @@ package com.example.university.business;
 import com.example.university.domain.Course;
 import com.example.university.domain.Department;
 import com.example.university.domain.Staff;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.university.domain.QCourse.course;
 
 
 /**
@@ -57,5 +60,13 @@ public class CourseFilter {
             instructor.ifPresent(i -> predicates.add(criteriaBuilder.equal(root.get("instructor"),i)));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
+    }
+
+    public com.querydsl.core.types.Predicate getQueryPredicate(){
+        BooleanBuilder predicate = new BooleanBuilder();
+        department.ifPresent(d -> predicate.and(course.department.eq(d)));
+        credits.ifPresent(c -> predicate.and(course.credits.eq(c)));
+        instructor.ifPresent(i -> predicate.and(course.instructor.eq(i)));
+        return predicate;
     }
 }
