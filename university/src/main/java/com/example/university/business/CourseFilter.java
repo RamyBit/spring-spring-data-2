@@ -4,6 +4,7 @@ import com.example.university.domain.Course;
 import com.example.university.domain.Department;
 import com.example.university.domain.Staff;
 import com.querydsl.core.BooleanBuilder;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
@@ -68,5 +69,12 @@ public class CourseFilter {
         credits.ifPresent(c -> predicate.and(course.credits.eq(c)));
         instructor.ifPresent(i -> predicate.and(course.instructor.eq(i)));
         return predicate;
+    }
+    public Example<Course> getExampleProbe(){
+        Course course = new Course(null,
+                credits.orElse(null),
+                instructor.orElse(null),
+                department.orElse(null));
+        return Example.of(course);
     }
 }
